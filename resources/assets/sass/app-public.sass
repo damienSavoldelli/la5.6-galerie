@@ -1,0 +1,19 @@
+body
+  background-color: #343a40
+  padding-top: 70px
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
+  color: $title-color
+  &.modal-title
+    color: $text-color
+
+button, html [type="button"], [type="reset"], [type="submit"]
+      -webkit-appearance: inherit
+
+#flags
+  &.dropdown-menu
+    min-width: inherit
+
+
+.custom-file-label::after
+    content: "Parcourir"
