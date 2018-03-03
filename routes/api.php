@@ -22,3 +22,5 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::get('picture', 'Api\ImageController@index')->name('picture.index');
+Route::get('picture/category/{slug}', 'Api\ImageController@category')->name('picture.category');
+Route::get('picture/user/{user}', 'Api\ImageController@user')->name('picture.user');
