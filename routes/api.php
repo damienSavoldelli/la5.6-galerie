@@ -13,14 +13,23 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('register', 'Api\Auth\RegisterController@register');
-Route::post('login', 'Api\Auth\LoginController@login');
-Route::post('refresh', 'Api\Auth\LoginController@refresh');
+
+
+Route::middleware('access')->group(function () {
+  Route::post('register', 'Api\Auth\RegisterController@register');
+  Route::post('login', 'Api\Auth\LoginController@login');
+  Route::post('refresh', 'Api\Auth\LoginController@refresh');
+
+
+  Route::get('picture', 'Api\ImageController@index')->name('picture.index');
+  Route::get('picture/category/{slug}', 'Api\ImageController@category')->name('picture.category');
+  Route::get('picture/user/{user}', 'Api\ImageController@user')->name('picture.user');
+});
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', 'Api\Auth\LoginController@logout');
-});
 
-Route::get('picture', 'Api\ImageController@index')->name('picture.index');
-Route::get('picture/category/{slug}', 'Api\ImageController@category')->name('picture.category');
-Route::get('picture/user/{user}', 'Api\ImageController@user')->name('picture.user');
+    // Route::resource('picture', 'Api\ImageController', [
+    //     'only' => ['create', 'store', 'destroy', 'update']
+    // ]);
+});
