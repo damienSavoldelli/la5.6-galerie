@@ -45,11 +45,11 @@
           </li>
         @endif
         @admin
+
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle{{ currentRoute(
                             route('category.create'),
                             route('category.index'),
-                            route('category.edit', request()->category),
                             route('maintenance.index')
                         )}}" href="#" id="navbarDropdownGestCat" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @lang('Administration')
