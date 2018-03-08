@@ -38,6 +38,6 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware('admin','auth:api')->group(function () {
 
   Route::resource ('category', 'Api\CategoryController', [
-      'except' => ['show', 'index']
+      'except' => ['edit', 'create', 'show', 'index']
   ]);
 });
