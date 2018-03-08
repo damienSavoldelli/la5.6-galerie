@@ -20,6 +20,14 @@ class Admin
         if ($user && $user->role === 'admin') {
             return $next($request);
         }
-        return redirect()->route('home');
+
+        if (request()->wantsJson()) {
+          return response()->json(array(
+              'error'   => 'invalid_access_token',
+              'message' => "Vous n'avez pas les permissions"
+          ), 401);
+        } else {
+          return redirect()->route('home');
+        }
     }
 }
