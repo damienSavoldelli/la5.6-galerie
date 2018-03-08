@@ -15,8 +15,12 @@ Auth::routes();
 
 Route::redirect('/home', '/', 301);
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::name('home')->get('/', 'HomeController@index');
 Route::name('language')->get('language/{lang}', 'HomeController@language');
+
+Route::name('category')->get('category/{slug}', 'ImageController@category');
+Route::name('user')->get('user-picture-{user}', 'ImageController@user');
+
 
 Route::middleware('admin')->group(function () {
     Route::resource ('category', 'CategoryController', [
@@ -26,6 +30,7 @@ Route::middleware('admin')->group(function () {
     Route::name('maintenance.index')->get('maintenance', 'AdminController@index');
     Route::name('maintenance.destroy')->delete('maintenance', 'AdminController@destroy');
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::resource('image', 'ImageController', [
@@ -37,6 +42,3 @@ Route::middleware('auth')->group(function () {
         'parameters' => ['profile' => 'user']
     ]);
 });
-
-Route::name('category')->get('category/{slug}', 'ImageController@category');
-Route::name('user')->get('user-picture-{user}', 'ImageController@user');
