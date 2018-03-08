@@ -44,7 +44,16 @@ class imageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $request->validate([
+          'image' => 'required|image|max:2000',
+          'category_id' => 'required|exists:categories,id',
+          'description' => 'nullable|string|max:255',
+      ]);
+      $this->repository->store($request);
+
+      return response()->json(array(
+          'message'   =>   __("L'image a bien été enregistrée")
+      ), 200);
     }
 
     /**
