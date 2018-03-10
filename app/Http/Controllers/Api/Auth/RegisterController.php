@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Api\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Route;
 
-
+/**
+ * @resource Authentication
+ *
+ * Authentication for user connexion and register
+ */
 class RegisterController extends Controller
 {
 
@@ -20,17 +25,14 @@ class RegisterController extends Controller
   }
 
   /**
-   * Create a new controller instance.
-   *
-   * @return void
+   * Register POST
+   * Authorization: Bearer authentify
+   * 
+   * @param  RegisterRequest $request
+   * @return \Illuminate\Http\Response
    */
-  public function register(Request $request)
+  public function register(RegisterRequest $request)
   {
-    $this->validate ($request, [
-      'name' => 'required',
-      'email' => 'required|email|unique:users,email',
-      'password' => 'required|min:6|confirmed'
-    ]);
 
     $user = User::create([
       'name' => $request->name,

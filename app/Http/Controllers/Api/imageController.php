@@ -10,6 +10,10 @@ use App\Repositories\ImageRepository;
 
 use App\Models\ { Category, Image, User };
 
+/**
+ * @resource Picture
+ *
+ */
 class imageController extends Controller
 {
 
@@ -26,7 +30,9 @@ class imageController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Picture GET
+     * Display a listing of the resource in Picture.
+     * Authorization: Bearer authentify
      *
      * @return \Illuminate\Http\Response
      */
@@ -37,7 +43,9 @@ class imageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Picture POST
+     * Store a newly created resource in Picture.
+     * Authorization: Bearer acces_token
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -57,41 +65,48 @@ class imageController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
+     * Picture PUT
      * Update the specified resource in storage.
+     * Authorization: Bearer acces_token
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Image   $image
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+     public function update(Request $request, Image $image)
+     {
+        $this->authorize('manage', $image);
+        $image->category_id = $request->category_id;
+        $image->save();
+        return response()->json(array(
+            'message'   =>   __("L'image a bien été mise à jour")
+        ), 200);
+     }
 
     /**
+     * Picture DELETE
      * Remove the specified resource from storage.
+     * Authorization: Bearer acces_token
      *
-     * @param  int  $id
+     * @param  Image  $image
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Image $image)
     {
-        //
+        $this->authorize('manage', $image);
+        $image->delete();
+        return response()->json(array(
+            'message'   =>   __("L'image a bien été supprimé")
+        ), 200);
     }
 
     /**
-     * Display a listing by catgory slug
+     * Picture Category GET
+     * Display a listing of pictures by catgory slug
+     *
+     * @response {
+     *  data: ['test' => ''],
+     * }
      *
      * @param  [type] $slug
      * @return \Illuminate\Http\Response
@@ -108,7 +123,9 @@ class imageController extends Controller
     }
 
     /**
-     *  Display a listing by user
+     * Picture User GET
+     * Display a listing of pictures by user
+     *
      * @param  User   $user
      * @return \Illuminate\Http\Response
      */

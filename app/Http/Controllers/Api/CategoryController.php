@@ -8,10 +8,17 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 
+/**
+ * @resource Category
+ *
+ * Categories of pictures
+ */
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Category GET
+     * Display a listing of the Category resource.
+     * Authorization: Bearer acces_token
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,9 +29,11 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Category POST
+     * Store a newly created resource in Category.
+     * Authorization: Bearer acces_token
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CategoryRequest $request)
@@ -36,7 +45,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Category PUT
+     * Update the specified resource in Category.
+     * Authorization: Bearer acces_token
      *
      * @param  CategoryRequest $request
      * @param  Category        $category
@@ -52,7 +63,10 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Category DELETE
+     * Remove the specified resource from Category.
+     * Authorization: Bearer acces_token
+     *
      * @param  Category $category
      * @return  \Illuminate\Http\Response
      */

@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Api\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * @resource Authentication
+ *
+ * Authentication for user connexion and register
+ */
 class loginController extends Controller
 {
     protected $client;
@@ -18,12 +24,25 @@ class loginController extends Controller
       $this->client = Client::where('password_client', 1)->first();
     }
 
-    public function login(Request $request)
+    /**
+     * Login POST
+     * Authorization: Bearer authentify
+     *
+     * @response {
+     *  data: [
+     *    "test"=>""
+     *  ]
+     * }
+     *
+     * @param  LoginRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(LoginRequest $request)
     {
-      $this->validate($request, [
-        'username' => 'required',
-        'password' => 'required',
-      ]);
+      // $this->validate($request, [
+      //   'username' => 'required',
+      //   'password' => 'required',
+      // ]);
 
       $params = [
         'grant_type' => 'password',
@@ -42,11 +61,18 @@ class loginController extends Controller
     	return Route::dispatch($proxy);
     }
 
+    /**
+     * Refresh token POST
+     * Authorization: Bearer acces_token
+     *
+     * @param  LoginRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function refresh(Request $request)
     {
-        $this->validate($request, [
-          'refresh_token' => 'required'
-        ]);
+        // $this->validate($request, [
+        //   'refresh_token' => 'required'
+        // ]);
 
         $params = [
           'grant_type' => 'refresh_token',
@@ -63,6 +89,13 @@ class loginController extends Controller
       	return Route::dispatch($proxy);
     }
 
+    /**
+     * Logout POST
+     * Authorization: Bearer acces_token
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function logout(Request $request)
     {
         $accessToken = Auth::user()->token();
