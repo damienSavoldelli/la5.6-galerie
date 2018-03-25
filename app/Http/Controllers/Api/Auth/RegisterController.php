@@ -27,12 +27,17 @@ class RegisterController extends Controller
   /**
    * Register POST
    * Authorization: Bearer authentify
-   * 
+   *
    * @param  RegisterRequest $request
    * @return \Illuminate\Http\Response
    */
   public function register(RegisterRequest $request)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'email' => 'required|email|unique:users,email',
+      'password' => 'required|min:6|confirmed'
+    ]);
 
     $user = User::create([
       'name' => $request->name,
