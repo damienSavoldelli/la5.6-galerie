@@ -37,12 +37,12 @@ class loginController extends Controller
      * @param  LoginRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
-      // $this->validate($request, [
-      //   'username' => 'required',
-      //   'password' => 'required',
-      // ]);
+      $this->validate($request, [
+        'username' => 'required',
+        'password' => 'required',
+      ]);
 
       $params = [
         'grant_type' => 'password',
@@ -65,14 +65,14 @@ class loginController extends Controller
      * Refresh token POST
      * Authorization: Bearer acces_token
      *
-     * @param  LoginRequest $request
+     * @param  RefreshRequest $request
      * @return \Illuminate\Http\Response
      */
     public function refresh(Request $request)
     {
-        // $this->validate($request, [
-        //   'refresh_token' => 'required'
-        // ]);
+        $this->validate($request, [
+          'refresh_token' => 'required'
+        ]);
 
         $params = [
           'grant_type' => 'refresh_token',
