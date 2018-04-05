@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
       });
 
       if(request()->server("SCRIPT_NAME") !== 'artisan') {
-          view ()->share ('categories', Category::all ());
+          view()->share('categories', Category::all());
       }
     }
 

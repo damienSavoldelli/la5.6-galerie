@@ -24,8 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $images = Image::latestWithUser()->paginate(config('app.pagination'));
-      return view('home', compact('images'));
+        $images = Image::latestWithUser()->paginate(config('app.pagination'));
+        return view('home', compact('images'));
     }
 
     /**
