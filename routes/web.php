@@ -22,8 +22,8 @@ Route::name('category')->get('category/{slug}', 'ImageController@category');
 Route::name('user')->get('user-picture-{user}', 'ImageController@user');
 
 // Social Auth
-Route::get('login/{provider}', 'Auth\socialController@redirectToProvider');
-Route::get('login/{provider}/callback', 'Auth\socialController@handleProviderCallback');
+Route::name('social')->get('login/{provider}', 'Auth\socialController@redirectToProvider');
+Route::name('social.callback')->get('login/{provider}/callback', 'Auth\socialController@handleProviderCallback');
 
 Route::middleware('admin')->group(function () {
     Route::resource ('category', 'CategoryController', [
