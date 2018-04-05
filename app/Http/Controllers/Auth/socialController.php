@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use Socialite;
-use App\Models\User;
+use App\Models\ {User, socialUser};
 
 class socialController extends Controller
 {
@@ -42,11 +42,17 @@ class socialController extends Controller
     public function handleProviderCallback($provider)
     {
         $user = Socialite::driver($provider)->user();
-        // dd($user);
+
         $authUser = User::firstOrCreate(
-          ['email'=> $user->email],
-          ['name' => $user->name, 'email'=> $user->email, 'settings' => '{"pagination": 8}']
+            ['email'=> $user->email],
+            ['name' => $user->name, 'email'=> $user->email, 'settings' => '{"pagination": 8}']
         );
+
+        socialUser::firstOrCreate(
+            ['user_id' => $authUser->id, 'provider_user_id' => $user->getId()],
+            ['provider' => $provider, 'verified' => $user->user['verified'], 'avatar' => $user->getAvatar()]
+        );
+
         Auth::login($authUser, true);
         return redirect($this->redirectTo);
     }
