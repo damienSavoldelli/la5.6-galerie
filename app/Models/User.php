@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Image::class);
     }
+
+    public function socialUser()
+    {
+        return $this->hasMany(SocialUser::class);
+    }
 }
