@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Route;
+use Auth;
 
 /**
  * @resource Authentication
@@ -43,7 +44,7 @@ class loginController extends Controller
         'username' => 'required',
         'password' => 'required',
       ]);
-      
+
       $params = [
         'grant_type' => 'password',
         'client_id' => $this->client->id,
