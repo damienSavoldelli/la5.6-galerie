@@ -22,7 +22,7 @@ class CreateSocialUsersTable extends Migration
             $table->string('verified');
             $table->timestamps();
 
-            $table->unique('user_id', 'provider_user_id');
+            $table->unique(['user_id', 'provider_user_id']);
         });
     }
 
