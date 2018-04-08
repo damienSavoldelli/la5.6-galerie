@@ -15,29 +15,29 @@ use Illuminate\Http\Request;
 
 
 
-Route::middleware('access')->group(function () {
-  Route::post('register', 'Api\Auth\RegisterController@register');
-  Route::post('login', 'Api\Auth\LoginController@login');
+Route::prefix('V1')->middleware('access')->group(function () {
+  Route::post('register', 'Api\v1\Auth\RegisterController@register');
+  Route::post('login', 'Api\v1\Auth\LoginController@login');
 
-  Route::get('picture', 'Api\ImageController@index')->name('picture.index');
-  Route::get('picture/category/{slug}', 'Api\ImageController@category')->name('picture.category');
-  Route::get('picture/user/{user}', 'Api\ImageController@user')->name('picture.user');
+  Route::get('picture', 'Api\v1\ImageController@index')->name('picture.index');
+  Route::get('picture/category/{slug}', 'Api\v1\ImageController@category')->name('picture.category');
+  Route::get('picture/user/{user}', 'Api\v1\ImageController@user')->name('picture.user');
 
-  Route::get('category', 'Api\CategoryController@index')->name('category.index');
+  Route::get('category', 'Api\v1\CategoryController@index')->name('category.index');
 });
 
-Route::middleware('auth:api')->group(function () {
-    Route::post('refresh', 'Api\Auth\LoginController@refresh');
-    Route::post('logout', 'Api\Auth\LoginController@logout');
+Route::prefix('V1')->middleware('auth:api')->group(function () {
+    Route::post('refresh', 'Api\v1\Auth\LoginController@refresh');
+    Route::post('logout', 'Api\v1\Auth\LoginController@logout');
 
-    Route::resource('picture', 'Api\ImageController', [
+    Route::resource('picture', 'Api\v1\ImageController', [
         'only' => ['store', 'destroy', 'update']
     ]);
 });
 
-Route::middleware('admin','auth:api')->group(function () {
+Route::prefix('V1')->middleware('admin','auth:api')->group(function () {
 
-  Route::resource ('category', 'Api\CategoryController', [
+  Route::resource ('category', 'Api\v1\CategoryController', [
       'except' => ['edit', 'create', 'show', 'index']
   ]);
 });
