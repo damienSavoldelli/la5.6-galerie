@@ -17,9 +17,9 @@ class UserPolicy
      * @param  \App\User  $userprofile
      * @return mixed
      */
-    public function update(User $user, User $userprofile)
+    public function update(User $user, User $userProfile)
     {
-        return $user->id === $userprofile->id;
+        return $user->id === $userProfile->id;
     }
 
 }
