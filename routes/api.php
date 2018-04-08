@@ -33,11 +33,16 @@ Route::prefix('V1')->middleware('auth:api')->group(function () {
     Route::resource('picture', 'Api\v1\ImageController', [
         'only' => ['store', 'destroy', 'update']
     ]);
+
+    Route::resource('profile', 'Api\v1\UserController', [
+        'only' => ['show', 'update'],
+        'parameters' => ['profile' => 'user']
+    ]);
 });
 
 Route::prefix('V1')->middleware('admin','auth:api')->group(function () {
 
-  Route::resource ('category', 'Api\v1\CategoryController', [
-      'except' => ['edit', 'create', 'show', 'index']
-  ]);
+    Route::resource ('category', 'Api\v1\CategoryController', [
+        'except' => ['edit', 'create', 'show', 'index']
+    ]);
 });
