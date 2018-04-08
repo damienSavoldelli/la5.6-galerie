@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.1.3",
+        "adaojunior/passport-social-grant": "^3.2",
         "caouecs/laravel-lang": "~3.0",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
