@@ -22,7 +22,7 @@ class loginController extends Controller
 
     public function __construct()
     {
-      $this->client = Client::where('password_client', 1)->first();
+        $this->client = Client::where('password_client', 1)->first();
     }
 
     /**
@@ -40,26 +40,26 @@ class loginController extends Controller
      */
     public function login(Request $request)
     {
-      $this->validate($request, [
-        'username' => 'required',
-        'password' => 'required',
-      ]);
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
 
-      $params = [
-        'grant_type' => 'password',
-        'client_id' => $this->client->id,
-        'client_secret' => $this->client->secret,
-        'username' => $request->username,
-        'password' => $request->password,
-        'scope' => ''
-      ];
+        $params = [
+            'grant_type' => 'password',
+            'client_id' => $this->client->id,
+            'client_secret' => $this->client->secret,
+            'username' => $request->username,
+            'password' => $request->password,
+            'scope' => ''
+        ];
 
 
-      $request->request->add($params);
+        $request->request->add($params);
 
-    	$proxy = Request::create('oauth/token', 'POST');
+        $proxy = Request::create('oauth/token', 'POST');
 
-    	return Route::dispatch($proxy);
+        return Route::dispatch($proxy);
     }
 
     /**
