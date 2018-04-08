@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api\V1\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -43,7 +43,7 @@ class loginController extends Controller
         'username' => 'required',
         'password' => 'required',
       ]);
-
+      
       $params = [
         'grant_type' => 'password',
         'client_id' => $this->client->id,
