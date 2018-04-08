@@ -16,7 +16,7 @@ class ImageByCategoryResource extends JsonResource
     {
         return [
           "category" => new CategoryResource($this->resource['category']),
-          "images" => ImageResource::collection($this->resource['images']),
+          "images"   => ImageResource::collection($this->resource['images']),
         ];
     }
 }

@@ -16,13 +16,13 @@ class ImageResource extends JsonResource
     public function toArray($request)
     {
       return [
-          "id" => $this->id,
-          "name" => $this->name,
-          "thumb" => url("/thumbs").'/'.$this->name,
-          "large" => url("/images").'/'.$this->name,
+          "id"          => $this->id,
+          "name"        => $this->name,
+          "thumb"       => url("/thumbs").'/'.$this->name,
+          "large"       => url("/images").'/'.$this->name,
           "description" => $this->description,
-          "user" => new UserResource($this->user),
-          "category" => new CategoryResource($this->category),
+          "user"        => new UserResource($this->user),
+          "category"    => new CategoryResource($this->category),
       ];
     }
 }
