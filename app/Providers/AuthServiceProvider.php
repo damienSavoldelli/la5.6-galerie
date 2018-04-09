@@ -5,6 +5,8 @@ namespace App\Providers;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Carbon;
+use App\Repositories\SocialUserResolverRepository;
+use Adaojunior\Passport\SocialUserResolverInterface;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 use App\Policies\{ImagePolicy, UserPolicy};
@@ -37,5 +39,13 @@ class AuthServiceProvider extends ServiceProvider
         Passport::tokensExpireIn(Carbon::now()->addDays(15));
 
         Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
+    }
+
+    public function register()
+    {
+        $this->app->singleton(
+            SocialUserResolverInterface::class,
+            SocialUserResolverRepository::class
+        );
     }
 }
