@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use App\Models\User;
+use Illuminate\Validation\Rule;
+
+use App\Models\ { User, socialUser };
+
+use Auth;
 use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Route;
-use Auth;
+
+
 
 /**
  * @resource Authentication
@@ -61,6 +67,59 @@ class loginController extends Controller
 
         return Route::dispatch($proxy);
     }
+
+    /**
+     * [login description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function social(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|string|email|max:255',
+            'name' => 'required',
+            'provider_user_id' => 'required|string|max:191|min:4',
+            'access_token' => 'required',
+            'provider' => [
+                'required',
+                Rule::in(['facebook','google']),
+            ],
+        ]);
+
+        $authUser = User::firstOrCreate(
+            ['email'=> $request->email],
+            ['name' => $request->name, 'settings' => '{"pagination": 8}']
+        );
+
+        $avatar = (!empty($request->avatar)) ? $request->avatar : '';
+        $verified = (!empty($request->verified)) ? $request->verified : 0;
+
+        $socialUser = socialUser::firstOrCreate(
+            ['user_id' => $authUser->id, 'provider_user_id' => $request->provider_user_id],
+            ['provider' => $request->provider, 'provider_user_token' => $request->access_token, 'verified' => $verified, 'avatar' => $avatar]
+        );
+
+        if ($socialUser->provider_user_token != $request->access_token) {
+            $socialUser->provider_user_token = $request->access_token;
+            $socialUser->save();
+        }
+
+        $params = [
+            'grant_type' => 'social',
+            'client_id' => $this->client->id,
+            'client_secret' => $this->client->secret,
+            'network' => 'facebook',
+            'access_token' => $request->access_token
+        ];
+
+
+        $request->request->add($params);
+
+        $proxy = Request::create('oauth/token', 'POST');
+
+        return Route::dispatch($proxy);
+    }
+
 
     /**
      * Refresh token POST
