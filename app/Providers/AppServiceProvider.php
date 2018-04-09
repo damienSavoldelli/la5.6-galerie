@@ -17,23 +17,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191);
 
-      setLocale(LC_TIME, config('app.locale'));
+        setLocale(LC_TIME, config('app.locale'));
 
-      AbstractPaginator::defaultView("pagination::bootstrap-4");
+        AbstractPaginator::defaultView("pagination::bootstrap-4");
 
-      Blade::if('admin', function () {
-          return auth()->check() && auth()->user()->role === 'admin';
-      });
+        Blade::if('admin', function () {
+            return auth()->check() && auth()->user()->role === 'admin';
+        });
 
-      Blade::if('adminOrOwner', function ($id) {
-          return auth()->check() && (auth()->id() === $id || auth()->user()->role === 'admin');
-      });
+        Blade::if('adminOrOwner', function ($id) {
+            return auth()->check() && (auth()->id() === $id || auth()->user()->role === 'admin');
+        });
 
-      if(request()->server("SCRIPT_NAME") !== 'artisan') {
-          view()->share('categories', Category::all());
-      }
+        if(request()->server("SCRIPT_NAME") !== 'artisan') {
+            view()->share('categories', Category::all());
+        }
     }
 
     /**

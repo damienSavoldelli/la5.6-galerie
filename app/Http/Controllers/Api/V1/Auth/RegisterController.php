@@ -31,7 +31,7 @@ class RegisterController extends Controller
    * @param  RegisterRequest $request
    * @return \Illuminate\Http\Response
    */
-  public function register(RegisterRequest $request)
+  public function register(Request $request)
   {
     $this->validate($request, [
       'name' => 'required',
