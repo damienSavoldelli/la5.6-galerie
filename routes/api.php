@@ -15,34 +15,35 @@ use Illuminate\Http\Request;
 
 
 
-Route::prefix('V1')->middleware('access')->group(function () {
-  Route::post('register', 'Api\v1\Auth\RegisterController@register');
-  Route::post('login', 'Api\v1\Auth\LoginController@login');
+Route::prefix('v1')->middleware('access')->group(function () {
+  Route::post('register', 'Api\V1\Auth\RegisterController@register');
+  Route::post('login', 'Api\V1\Auth\LoginController@login');
+  Route::post('login/social', 'Api\V1\Auth\LoginController@social');
 
-  Route::get('picture', 'Api\v1\ImageController@index')->name('picture.index');
-  Route::get('picture/category/{slug}', 'Api\v1\ImageController@category')->name('picture.category');
-  Route::get('picture/user/{user}', 'Api\v1\ImageController@user')->name('picture.user');
+  Route::get('picture', 'Api\V1\ImageController@index')->name('picture.index');
+  Route::get('picture/category/{slug}', 'Api\V1\ImageController@category')->name('picture.category');
+  Route::get('picture/user/{user}', 'Api\V1\ImageController@user')->name('picture.user');
 
-  Route::get('category', 'Api\v1\CategoryController@index')->name('category.index');
+  Route::get('category', 'Api\V1\CategoryController@index')->name('category.index');
 });
 
-Route::prefix('V1')->middleware('auth:api')->group(function () {
-    Route::post('refresh', 'Api\v1\Auth\LoginController@refresh');
-    Route::post('logout', 'Api\v1\Auth\LoginController@logout');
+Route::prefix('v1')->middleware('auth:api')->group(function () {
+    Route::post('refresh', 'Api\V1\Auth\LoginController@refresh');
+    Route::post('logout', 'Api\V1\Auth\LoginController@logout');
 
-    Route::resource('picture', 'Api\v1\ImageController', [
+    Route::resource('picture', 'Api\V1\ImageController', [
         'only' => ['store', 'destroy', 'update']
     ]);
 
-    Route::resource('profile', 'Api\v1\UserController', [
+    Route::resource('profile', 'Api\V1\UserController', [
         'only' => ['show', 'update'],
         'parameters' => ['profile' => 'user']
     ]);
 });
 
-Route::prefix('V1')->middleware('admin','auth:api')->group(function () {
+Route::prefix('v1')->middleware('admin','auth:api')->group(function () {
 
-    Route::resource ('category', 'Api\v1\CategoryController', [
+    Route::resource ('category', 'Api\V1\CategoryController', [
         'except' => ['edit', 'create', 'show', 'index']
     ]);
 });
