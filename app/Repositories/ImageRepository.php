@@ -18,7 +18,7 @@ class ImageRepository
         $path = Storage::disk('images')->put('', $request->file('image'));
 
         // Save thumb
-        $image = InterventionImage::make($request->file('image'))->widen(120);
+        $image = InterventionImage::make($request->file('image'))->widen(380);
         Storage::disk('thumbs')->put($path, $image->encode());
 
         // Save in base
