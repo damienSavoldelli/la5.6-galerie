@@ -48,10 +48,15 @@ class socialController extends Controller
             ['name' => $user->name, 'email'=> $user->email, 'settings' => '{"pagination": 8}']
         );
 
-        socialUser::firstOrCreate(
+        $socialUser = socialUser::firstOrCreate(
             ['user_id' => $authUser->id, 'provider_user_id' => $user->getId()],
-            ['provider' => $provider, 'verified' => $user->user['verified'], 'avatar' => $user->getAvatar()]
+            ['provider' => $provider, 'verified' => $user->user['verified'], 'provider_user_token' => $user->token, 'avatar' => $user->getAvatar()]
         );
+
+        if ($socialUser->provider_user_token != $user->token) {
+            $socialUser->provider_user_token = $user->token;
+            $socialUser->save();
+        }
 
         Auth::login($authUser, true);
         return redirect($this->redirectTo);
