@@ -4,6 +4,18 @@
         @slot('title')
             @lang('Inscription')
         @endslot
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <a class="btn btn-primary center-block" href="{{ route('social', ['provider' => 'facebook']) }}">
+                    @lang('Connexion avec Facebook')
+                </a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a class="btn btn-primary center-block" href="{{ route('social', ['provider' => 'google']) }}">
+                    @lang('Connexion avec Google+')
+                </a>
+            </div>
+        </div>
         <form method="POST" action="{{ route('register') }}">
             {{ csrf_field() }}
             @include('partials.form-group', [
