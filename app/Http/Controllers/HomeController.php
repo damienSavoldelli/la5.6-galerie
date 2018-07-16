@@ -29,9 +29,10 @@ class HomeController extends Controller
     }
 
     /**
-     * [language description]
+     * Language manage
+     *
      * @param  String $locale
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function language(String $locale)
     {
